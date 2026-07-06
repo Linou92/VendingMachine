@@ -19,6 +19,6 @@ public class Beverage extends Product{
 
     @Override
     public String getDescription(){
-        return getName() + " (Beverage, " + volumeMl + " ml)";
+        return "(Beverage, " + volumeMl + " ml)";
     }
 }

@@ -25,12 +25,11 @@ public class VendingMachine implements VendingMachineInterface {
         IO.println("------------------------------------");
         for (Product product : products) {
             IO.println(String.format("""
-                            [%d] %s
-                                - %d kr
-                                - Stock: %d
+                            [%d] %s   - %d kr   %s   Stock: %d     
                             """, product.getId(),
-                    product.getDescription(),
+                    product.getName(),
                     product.getPrice(),
+                    product.getDescription(),
                     product.getQuantity()));
         }
         IO.println(String.format("""
@@ -88,7 +87,7 @@ public class VendingMachine implements VendingMachineInterface {
         // successful purchase
         product.decreaseStock();
         balance -= price;
-        IO.println("Dispensing: " + product.getDescription());
+        IO.println("Dispensing: " + product.getName() + product.getDescription());
         // return change if any
         if (balance > 0) {
             IO.println("Returned change: " + balance + " kr");

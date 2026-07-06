@@ -19,7 +19,7 @@ public class Fruit extends Product{
 
     @Override
     public String getDescription(){
-        return getName() + " (Fruit, " + origin + ")";
+        return "(Fruit, " + origin + ")";
     }
 }
 

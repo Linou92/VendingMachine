@@ -19,6 +19,6 @@ public class Snack extends Product{
 
     @Override
     public String getDescription(){
-       return getName() + " (Snack, " + weightGrams + " g)";
+       return "(Snack, " + weightGrams + " g)";
     }
 }
