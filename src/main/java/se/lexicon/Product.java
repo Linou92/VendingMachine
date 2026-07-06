@@ -38,7 +38,7 @@ public abstract class Product {
 
     public void decreaseStock() {
         if (quantity > 0) {
-            this.quantity -= quantity;
+            this.quantity --;
         }
     }
 

@@ -103,12 +103,16 @@ public class VendingMachine implements VendingMachineInterface {
         return false;
     }
 
-    private Product findProductById(int id) {
+    public Product findProductById(int id) {
         for (Product product : products) {
             if (product.getId() == id) {
                 return product;
             }
         }
         return null;
+    }
+
+    public  List<Product> getProducts() {
+        return products;
     }
 }
