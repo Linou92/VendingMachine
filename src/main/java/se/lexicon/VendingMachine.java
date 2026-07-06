@@ -7,7 +7,6 @@ public class VendingMachine implements VendingMachineInterface {
 
     private List<Product> products;
     private int balance;
-    private final int[] validCoins = {1, 2, 5, 10, 20, 50};
 
     public VendingMachine() {
         this.products = new ArrayList<>();
@@ -41,7 +40,7 @@ public class VendingMachine implements VendingMachineInterface {
     // Payment
     @Override
     public void insertCoin(int coin) {
-        if (!isValidCoin(coin)) {
+        if (!CoinValidator.isValidCoin(coin)) {
             IO.println("Invalid Coin! Only 1, 2, 5, 10, 20, 50 kr accepted.");
             return;
         }
@@ -96,13 +95,6 @@ public class VendingMachine implements VendingMachineInterface {
     }
 
     // Helpers
-    private boolean isValidCoin(int coin) {
-        for (int c : validCoins) {
-            if (c == coin) return true;
-        }
-        return false;
-    }
-
     public Product findProductById(int id) {
         for (Product product : products) {
             if (product.getId() == id) {
