@@ -241,3 +241,10 @@ Extend your design with one meaningful improvement. Write a short explanation of
 - Why it makes the system better
 - What OOP concept it demonstrates
 
+  Class CoinValidator added
+  The VendingMachine class now focuses only on vending machine logic.
+  Coin validation is reusable and easier to modify if accepted coins change.
+  The code follows the Single Responsibility Principle (SRP) by giving each class one responsibility.
+  It demonstrates encapsulation and Single Responsibility Principle (SRP).
+  The validation logic is encapsulated inside its own class instead of being mixed with the vending machine's business logic.
+
