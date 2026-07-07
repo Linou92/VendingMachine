@@ -1,11 +1,12 @@
 package se.lexicon;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class VendingMachine implements VendingMachineInterface {
 
-    private List<Product> products;
+    private final List<Product> products;
     private int balance;
 
     public VendingMachine() {
@@ -20,32 +21,18 @@ public class VendingMachine implements VendingMachineInterface {
     }
 
     @Override
-    public void displayProducts() {
-        IO.println("------------------------------------");
-        for (Product product : products) {
-            IO.println(String.format("""
-                            [%d] %s   - %d kr   %s   Stock: %d     
-                            """, product.getId(),
-                    product.getName(),
-                    product.getPrice(),
-                    product.getDescription(),
-                    product.getQuantity()));
-        }
-        IO.println(String.format("""
-                ------------------------------------
-                Balance: %d kr
-                """, balance));
+    public List<Product> displayProducts() {
+        return products;
     }
 
     // Payment
     @Override
-    public void insertCoin(int coin) {
+    public boolean insertCoin(int coin) {
         if (!CoinValidator.isValidCoin(coin)) {
-            IO.println("Invalid Coin! Only 1, 2, 5, 10, 20, 50 kr accepted.");
-            return;
+            return false;
         }
         balance += coin;
-        IO.println("Balance: " + balance + " kr");
+        return true;
     }
 
     @Override
@@ -54,44 +41,46 @@ public class VendingMachine implements VendingMachineInterface {
     }
 
     @Override
-    public void returnChange() {
-        if (balance == 0) {
-            IO.println("No balance to return.");
-            return;
-        }
-        IO.println("Change returned: " + balance + " kr");
+    public int returnChange() {
+        int change = balance;
         balance = 0;
+        return change;
     }
 
     // Purchase logic
     @Override
-    public void buyProduct(int productId) {
+    public PurchaseResult buyProduct(int productId) {
         // check if product exists or in stock
         Product product = findProductById(productId);
         if (product == null) {
-            IO.println("Product not found.");
-            return;
+            return new PurchaseResult(false, "Product not found.", null, 0);
         }
         if (!product.isInStock()) {
-            IO.println("Product is out of stock.");
-            return;
+            return new PurchaseResult(false, "Product is out of stock.", null, 0);
         }
         // not enough balance
         int price = product.getPrice();
         if (balance < price) {
             int missing = price - balance;
-            IO.println("Insufficient balance. Missing " + missing + " kr.");
-            return;
+            return new PurchaseResult(false,
+                    "Insufficient balance. Missing " + missing + " kr.",
+                    null,
+                    0);
         }
         // successful purchase
         product.decreaseStock();
         balance -= price;
-        IO.println("Dispensing: " + product.getName() + product.getDescription());
+        int change = balance;
         // return change if any
         if (balance > 0) {
-            IO.println("Returned change: " + balance + " kr");
             balance = 0;
-        } else IO.println("Balance: 0 kr");
+        }
+        return new PurchaseResult(
+                true,
+                "Dispensing: " + product.getName() + " " + product.getDescription(),
+                product,
+                change
+        );
     }
 
     // Helpers
@@ -105,6 +94,6 @@ public class VendingMachine implements VendingMachineInterface {
     }
 
     public  List<Product> getProducts() {
-        return products;
+        return Collections.unmodifiableList(products);
     }
 }

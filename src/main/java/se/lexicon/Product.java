@@ -8,6 +8,21 @@ public abstract class Product {
     private int quantity;
 
     public Product(int id, String name, int price, int quantity) {
+        if (id <= 0) {
+            throw new IllegalArgumentException("Product id must be greater than 0.");
+        }
+
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Product name cannot be empty.");
+        }
+
+        if (price < 0) {
+            throw new IllegalArgumentException("Price cannot be negative.");
+        }
+
+        if (quantity < 0) {
+            throw new IllegalArgumentException("Quantity cannot be negative.");
+        }
         this.id = id;
         this.name = name;
         this.price = price;

@@ -6,6 +6,9 @@ public class Snack extends Product{
 
     public Snack(int id, String name, int price, int quantity, int weightGrams) {
         super(id, name, price, quantity);
+        if (weightGrams <= 0) {
+            throw new IllegalArgumentException("Weight must be greater than 0.");
+        }
         this.weightGrams = weightGrams;
     }
 
